@@ -1,0 +1,41 @@
+export const siteConfig = {
+  name: "홍길동",
+  title: "Full-Stack Developer",
+  description: "웹 개발을 통해 아이디어를 현실로 만드는 개발자입니다.",
+  url: "https://my-blog.vercel.app",
+  email: "hello@example.com",
+  github: "https://github.com/yourusername",
+  linkedin: "https://linkedin.com/in/yourusername",
+  twitter: "https://twitter.com/yourusername",
+  skills: [
+    { name: "TypeScript", level: 90 },
+    { name: "React / Next.js", level: 90 },
+    { name: "Node.js", level: 80 },
+    { name: "PostgreSQL", level: 75 },
+    { name: "Docker", level: 70 },
+    { name: "AWS", level: 65 },
+  ],
+  projects: [
+    {
+      title: "프로젝트 이름 1",
+      description: "프로젝트에 대한 간단한 설명을 작성해주세요.",
+      tags: ["Next.js", "TypeScript", "Supabase"],
+      github: "https://github.com/yourusername/project1",
+      demo: "https://project1.vercel.app",
+    },
+    {
+      title: "프로젝트 이름 2",
+      description: "프로젝트에 대한 간단한 설명을 작성해주세요.",
+      tags: ["React", "Node.js", "PostgreSQL"],
+      github: "https://github.com/yourusername/project2",
+      demo: "https://project2.vercel.app",
+    },
+    {
+      title: "프로젝트 이름 3",
+      description: "프로젝트에 대한 간단한 설명을 작성해주세요.",
+      tags: ["Python", "FastAPI", "Docker"],
+      github: "https://github.com/yourusername/project3",
+      demo: "https://project3.vercel.app",
+    },
+  ],
+};
