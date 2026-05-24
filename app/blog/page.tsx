@@ -1,3 +1,4 @@
+import { Cursor } from "@/components/Cursor";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { PostCard } from "@/components/blog/PostCard";
@@ -6,48 +7,103 @@ import type { Metadata } from "next";
 import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: "블로그",
-  description: `${siteConfig.name}의 개발 블로그 - 기술, 경험, 생각을 기록합니다.`,
+  title: "Writing",
+  description: `${siteConfig.name}의 개발 블로그`,
 };
 
 export const dynamic = "force-dynamic";
 
 async function getPosts() {
-  const { data } = await supabase
-    .from("posts")
-    .select("*")
-    .eq("published", true)
-    .order("created_at", { ascending: false });
-  return data || [];
+  try {
+    const { data } = await supabase
+      .from("posts")
+      .select("*")
+      .eq("published", true)
+      .order("created_at", { ascending: false });
+    return data || [];
+  } catch {
+    return [];
+  }
 }
 
 export default async function BlogPage() {
   const posts = await getPosts();
 
-  const categories = Array.from(
-    new Set(posts.map((p) => p.category).filter(Boolean))
-  );
-
   return (
     <>
+      <Cursor />
       <Navbar />
-      <main className="flex-1 pt-24">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
-          <div className="mb-12">
-            <h1 className="text-4xl font-bold text-slate-900 dark:text-white mb-3">
-              블로그
+      <main style={{ background: "#EDE8DC", minHeight: "100vh", paddingTop: 120 }}>
+        <div style={{ maxWidth: 1000, margin: "0 auto", padding: "0 52px 120px" }}>
+          {/* Header */}
+          <div style={{ marginBottom: 80 }}>
+            <div
+              style={{
+                fontSize: 10,
+                letterSpacing: "0.28em",
+                textTransform: "uppercase",
+                color: "#B8A88A",
+                marginBottom: 24,
+                display: "flex",
+                alignItems: "center",
+                gap: 16,
+              }}
+            >
+              <span
+                style={{
+                  display: "block",
+                  width: 36,
+                  height: 1,
+                  background: "#B8A88A",
+                }}
+              />
+              Writing
+            </div>
+            <h1
+              style={{
+                fontFamily: "var(--font-playfair)",
+                fontSize: "clamp(44px, 7vw, 96px)",
+                fontWeight: 500,
+                lineHeight: 0.95,
+                letterSpacing: "-0.025em",
+                color: "#1A1A18",
+              }}
+            >
+              생각을 글로<br />
+              <em style={{ fontStyle: "italic", color: "#56524E" }}>정리합니다.</em>
             </h1>
-            <p className="text-slate-500 dark:text-slate-400">
-              개발 경험과 기술에 대한 글을 씁니다
-            </p>
           </div>
 
+          {/* Count */}
+          <div
+            style={{
+              fontSize: 11,
+              letterSpacing: "0.2em",
+              textTransform: "uppercase",
+              color: "#B8A88A",
+              marginBottom: 0,
+            }}
+          >
+            {posts.length} Articles
+          </div>
+
+          {/* Posts list */}
           {posts.length === 0 ? (
-            <div className="text-center py-24 text-slate-400">
+            <div
+              style={{
+                paddingTop: 80,
+                paddingBottom: 80,
+                textAlign: "center",
+                color: "#B8A88A",
+                fontFamily: "var(--font-playfair)",
+                fontSize: 24,
+                fontStyle: "italic",
+              }}
+            >
               아직 작성된 글이 없습니다.
             </div>
           ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div style={{ marginTop: 0 }}>
               {posts.map((post) => (
                 <PostCard key={post.id} post={post} />
               ))}
@@ -56,6 +112,12 @@ export default async function BlogPage() {
         </div>
       </main>
       <Footer />
+
+      <style>{`
+        @media (max-width: 820px) {
+          main > div { padding: 0 24px 80px !important; }
+        }
+      `}</style>
     </>
   );
 }

@@ -1,73 +1,152 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowDown, Code2, Mail } from "lucide-react";
+import { useEffect } from "react";
 import { siteConfig } from "@/config/site";
 
 export function Hero() {
+  useEffect(() => {
+    const onScroll = () => {
+      const h1 = document.querySelector(".hero-h1") as HTMLElement;
+      if (h1) h1.style.transform = `translateY(${window.scrollY * 0.06}px)`;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 via-white to-violet-50 dark:from-slate-900 dark:via-slate-900 dark:to-indigo-950" />
+    <section
+      style={{
+        minHeight: "100vh",
+        padding: "0 52px 80px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "flex-end",
+        position: "relative",
+        overflow: "hidden",
+        background: "#EDE8DC",
+      }}
+    >
+      {/* Side text */}
+      <div
+        className="hidden sm:block"
+        style={{
+          position: "absolute",
+          right: -16,
+          top: "50%",
+          transform: "rotate(90deg) translateY(-50%)",
+          transformOrigin: "right center",
+          fontSize: 10,
+          letterSpacing: "0.28em",
+          textTransform: "uppercase",
+          color: "#B8A88A",
+          whiteSpace: "nowrap",
+        }}
+      >
+        Full-Stack Developer &nbsp;/&nbsp; Open to Work
+      </div>
 
-      {/* Decorative blobs */}
-      <div className="absolute top-1/4 -left-20 w-72 h-72 bg-indigo-300/20 dark:bg-indigo-500/10 rounded-full blur-3xl" />
-      <div className="absolute bottom-1/4 -right-20 w-72 h-72 bg-violet-300/20 dark:bg-violet-500/10 rounded-full blur-3xl" />
+      {/* Badge */}
+      <div
+        style={{
+          fontSize: 11,
+          letterSpacing: "0.22em",
+          textTransform: "uppercase",
+          color: "#56524E",
+          marginBottom: 28,
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 14,
+        }}
+      >
+        <span style={{ display: "block", width: 36, height: 1, background: "#B8A88A" }} />
+        Developer &mdash; Seoul
+      </div>
 
-      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center">
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-100 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300 text-sm font-medium mb-6">
-          <span className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
-          현재 새로운 기회를 찾고 있습니다
-        </div>
+      {/* Heading */}
+      <h1
+        className="hero-h1"
+        style={{
+          fontFamily: "var(--font-playfair)",
+          fontSize: "clamp(52px, 8.5vw, 128px)",
+          lineHeight: 0.93,
+          fontWeight: 500,
+          letterSpacing: "-0.025em",
+          marginBottom: 60,
+          color: "#1A1A18",
+        }}
+      >
+        코드로<br />
+        <em style={{ fontStyle: "italic", color: "#56524E" }}>아이디어를</em><br />
+        만듭니다.
+      </h1>
 
-        <h1 className="text-5xl sm:text-7xl font-bold text-slate-900 dark:text-white mb-4 tracking-tight">
-          안녕하세요,{" "}
-          <span className="bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">
-            {siteConfig.name}
-          </span>
-          입니다
-        </h1>
-
-        <p className="text-xl sm:text-2xl text-indigo-600 dark:text-indigo-400 font-medium mb-6">
-          {siteConfig.title}
-        </p>
-
-        <p className="text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto mb-10 leading-relaxed">
+      {/* Footer row */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "flex-end",
+          gap: 32,
+          flexWrap: "wrap",
+        }}
+      >
+        <p
+          style={{
+            fontSize: 14,
+            lineHeight: 1.75,
+            color: "#56524E",
+            fontWeight: 300,
+            maxWidth: 300,
+          }}
+        >
           {siteConfig.description}
         </p>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 14 }}>
           <Link
             href="/#projects"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-medium transition-colors"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 12,
+              padding: "15px 30px",
+              fontSize: 12,
+              letterSpacing: "0.12em",
+              textTransform: "uppercase",
+              textDecoration: "none",
+              background: "#1A1A18",
+              color: "#EDE8DC",
+              transition: "background 0.3s ease",
+              fontFamily: "var(--font-inter)",
+            }}
+            className="btn-hero"
           >
-            프로젝트 보기
+            프로젝트 보기 <span className="arr" style={{ transition: "transform 0.3s ease" }}>→</span>
           </Link>
-          <Link
-            href={`mailto:${siteConfig.email}`}
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 font-medium transition-colors"
+          <span
+            style={{
+              fontSize: 10,
+              letterSpacing: "0.2em",
+              textTransform: "uppercase",
+              color: "#B8A88A",
+            }}
           >
-            <Mail size={18} />
-            연락하기
-          </Link>
-          <Link
-            href={siteConfig.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 font-medium transition-colors"
-          >
-            <Code2 size={18} />
-            GitHub
-          </Link>
+            Scroll to explore
+          </span>
         </div>
       </div>
 
-      <a
-        href="#about"
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors animate-bounce"
-      >
-        <ArrowDown size={24} />
-      </a>
+      <style>{`
+        .btn-hero:hover { background: #2A2826 !important; }
+        .btn-hero:hover .arr { transform: translateX(5px); }
+        @media (max-width: 820px) {
+          .hero-h1 { font-size: clamp(48px, 12vw, 80px) !important; }
+        }
+        @media (max-width: 520px) {
+          section[style*="52px 80px"] { padding: 0 24px 56px !important; }
+        }
+      `}</style>
     </section>
   );
 }

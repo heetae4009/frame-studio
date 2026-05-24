@@ -1,58 +1,135 @@
 import Link from "next/link";
-import { LayoutDashboard, FileText, LogOut, Home } from "lucide-react";
-import { ThemeToggle } from "@/components/ThemeToggle";
+import { FileText, LogOut, Home } from "lucide-react";
 
-export default function AdminLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 flex">
+    <div
+      className="admin-area"
+      style={{
+        minHeight: "100vh",
+        background: "#F2EDE3",
+        display: "flex",
+      }}
+    >
       {/* Sidebar */}
-      <aside className="w-56 fixed left-0 top-0 bottom-0 bg-white dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 flex flex-col">
-        <div className="p-4 border-b border-slate-200 dark:border-slate-700">
-          <h2 className="font-bold text-slate-900 dark:text-white">Admin</h2>
-          <p className="text-xs text-slate-500 dark:text-slate-400">블로그 관리</p>
+      <aside
+        style={{
+          width: 220,
+          position: "fixed",
+          left: 0,
+          top: 0,
+          bottom: 0,
+          background: "#1A1A18",
+          display: "flex",
+          flexDirection: "column",
+          borderRight: "1px solid rgba(255,255,255,0.05)",
+        }}
+      >
+        <div
+          style={{
+            padding: "28px 24px",
+            borderBottom: "1px solid rgba(255,255,255,0.07)",
+          }}
+        >
+          <div
+            style={{
+              fontFamily: "var(--font-playfair)",
+              fontSize: 18,
+              color: "#EDE8DC",
+              letterSpacing: "0.06em",
+              marginBottom: 4,
+            }}
+          >
+            Admin
+          </div>
+          <div
+            style={{
+              fontSize: 10,
+              letterSpacing: "0.2em",
+              textTransform: "uppercase",
+              color: "#B8A88A",
+            }}
+          >
+            Blog Manager
+          </div>
         </div>
 
-        <nav className="flex-1 p-3 space-y-1">
+        <nav style={{ flex: 1, padding: "16px 12px", display: "flex", flexDirection: "column", gap: 4 }}>
           <Link
             href="/admin/posts"
-            className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 10,
+              padding: "10px 12px",
+              fontSize: 12,
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+              color: "rgba(237,232,220,0.6)",
+              textDecoration: "none",
+              transition: "color 0.2s ease",
+            }}
+            className="admin-nav-link"
           >
-            <FileText size={16} />
-            포스트 관리
+            <FileText size={14} /> Posts
           </Link>
           <Link
             href="/"
             target="_blank"
-            className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 10,
+              padding: "10px 12px",
+              fontSize: 12,
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+              color: "rgba(237,232,220,0.6)",
+              textDecoration: "none",
+              transition: "color 0.2s ease",
+            }}
+            className="admin-nav-link"
           >
-            <Home size={16} />
-            블로그 보기
+            <Home size={14} /> View Site
           </Link>
         </nav>
 
-        <div className="p-3 border-t border-slate-200 dark:border-slate-700 space-y-1">
-          <div className="flex items-center gap-2 px-3 py-2">
-            <span className="text-sm text-slate-600 dark:text-slate-300">테마</span>
-            <ThemeToggle />
-          </div>
+        <div style={{ padding: "12px", borderTop: "1px solid rgba(255,255,255,0.07)" }}>
           <form action="/api/auth/logout" method="POST">
             <button
               type="submit"
-              className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+              style={{
+                width: "100%",
+                display: "flex",
+                alignItems: "center",
+                gap: 10,
+                padding: "10px 12px",
+                fontSize: 12,
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                color: "rgba(184,168,138,0.7)",
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                transition: "color 0.2s ease",
+              }}
+              className="admin-logout-btn"
             >
-              <LogOut size={16} />
-              로그아웃
+              <LogOut size={14} /> Logout
             </button>
           </form>
         </div>
       </aside>
 
-      {/* Main content */}
-      <main className="flex-1 ml-56 p-8">{children}</main>
+      <main style={{ flex: 1, marginLeft: 220, padding: 40 }}>
+        {children}
+      </main>
+
+      <style>{`
+        .admin-area { cursor: auto !important; }
+        .admin-nav-link:hover { color: #EDE8DC !important; }
+        .admin-logout-btn:hover { color: #B8A88A !important; }
+      `}</style>
     </div>
   );
 }

@@ -1,5 +1,7 @@
+import { Cursor } from "@/components/Cursor";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { Ticker } from "@/components/Ticker";
 import { Hero } from "@/components/portfolio/Hero";
 import { About } from "@/components/portfolio/About";
 import { Skills } from "@/components/portfolio/Skills";
@@ -9,9 +11,11 @@ import { Contact } from "@/components/portfolio/Contact";
 export default function Home() {
   return (
     <>
+      <Cursor />
       <Navbar />
-      <main className="flex-1">
+      <main>
         <Hero />
+        <Ticker />
         <About />
         <Skills />
         <Projects />

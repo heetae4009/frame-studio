@@ -2,97 +2,179 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ThemeToggle } from "./ThemeToggle";
-import { Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 
-const navLinks = [
-  { href: "/#about", label: "소개" },
-  { href: "/#skills", label: "기술" },
-  { href: "/#projects", label: "프로젝트" },
-  { href: "/blog", label: "블로그" },
-  { href: "/#contact", label: "연락" },
+const links = [
+  { href: "/#about", label: "About" },
+  { href: "/#skills", label: "Skills" },
+  { href: "/#projects", label: "Works" },
+  { href: "/blog", label: "Writing" },
+  { href: "/#contact", label: "Contact" },
 ];
 
 export function Navbar() {
   const pathname = usePathname();
-  const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 10);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 48);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const isActive = (href: string) => {
-    if (href === "/blog") return pathname.startsWith("/blog");
-    return false;
-  };
+  useEffect(() => {
+    document.body.classList.toggle("nav-open", menuOpen);
+  }, [menuOpen]);
+
+  const isActive = (href: string) =>
+    href === "/blog" && pathname.startsWith("/blog");
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800"
-          : "bg-transparent"
-      }`}
-    >
-      <nav className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+    <>
+      <header
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 500,
+          padding: scrolled ? "16px 52px" : "28px 52px",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          transition: "padding 0.4s ease, background 0.4s ease, border-color 0.4s ease",
+          background: scrolled ? "rgba(237,232,220,0.88)" : "transparent",
+          backdropFilter: scrolled ? "blur(16px)" : "none",
+          borderBottom: scrolled
+            ? "1px solid rgba(26,26,24,0.07)"
+            : "1px solid transparent",
+        }}
+      >
         <Link
           href="/"
-          className="text-lg font-bold text-slate-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+          style={{
+            fontFamily: "var(--font-playfair)",
+            fontSize: 20,
+            fontWeight: 500,
+            letterSpacing: "0.1em",
+            textDecoration: "none",
+            color: "#1A1A18",
+          }}
         >
           홍길동
         </Link>
 
-        {/* Desktop */}
-        <div className="hidden md:flex items-center gap-1">
-          {navLinks.map((link) => (
+        {/* Desktop links */}
+        <nav className="hidden md:flex items-center" style={{ gap: 40 }}>
+          {links.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                isActive(link.href)
-                  ? "text-indigo-600 dark:text-indigo-400"
-                  : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white"
-              }`}
+              style={{
+                fontSize: 12,
+                fontWeight: 400,
+                letterSpacing: "0.14em",
+                textTransform: "uppercase",
+                textDecoration: "none",
+                color: isActive(link.href) ? "#B8A88A" : "#1A1A18",
+                position: "relative",
+              }}
+              className="nav-link-hover"
             >
               {link.label}
             </Link>
           ))}
-          <div className="ml-2">
-            <ThemeToggle />
-          </div>
-        </div>
+        </nav>
 
-        {/* Mobile */}
-        <div className="md:hidden flex items-center gap-2">
-          <ThemeToggle />
-          <button
-            onClick={() => setOpen(!open)}
-            className="p-2 text-slate-600 dark:text-slate-300"
+        {/* Burger */}
+        <button
+          className="md:hidden flex flex-col"
+          style={{ gap: 6, cursor: "pointer", zIndex: 600, background: "none", border: "none" }}
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="메뉴"
+        >
+          <span
+            style={{
+              display: "block",
+              width: 24,
+              height: 1,
+              background: "#1A1A18",
+              transition: "transform 0.3s ease, opacity 0.3s ease",
+              transformOrigin: "center",
+              transform: menuOpen ? "rotate(45deg) translate(5px, 5px)" : "none",
+            }}
+          />
+          <span
+            style={{
+              display: "block",
+              width: 24,
+              height: 1,
+              background: "#1A1A18",
+              transition: "transform 0.3s ease",
+              transformOrigin: "center",
+              transform: menuOpen ? "rotate(-45deg) translate(5px, -5px)" : "none",
+            }}
+          />
+        </button>
+      </header>
+
+      {/* Mobile fullscreen menu */}
+      <div
+        style={{
+          position: "fixed",
+          inset: 0,
+          zIndex: 550,
+          background: "#2A2826",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: 36,
+          opacity: menuOpen ? 1 : 0,
+          pointerEvents: menuOpen ? "all" : "none",
+          transition: "opacity 0.4s ease",
+        }}
+      >
+        {links.map((link) => (
+          <Link
+            key={link.href}
+            href={link.href}
+            onClick={() => setMenuOpen(false)}
+            style={{
+              fontFamily: "var(--font-playfair)",
+              fontSize: "clamp(36px, 8vw, 56px)",
+              color: "#EDE8DC",
+              textDecoration: "none",
+              letterSpacing: "0.04em",
+            }}
           >
-            {open ? <X size={20} /> : <Menu size={20} />}
-          </button>
-        </div>
-      </nav>
+            {link.label}
+          </Link>
+        ))}
+        <span
+          style={{
+            fontSize: 12,
+            letterSpacing: "0.2em",
+            textTransform: "uppercase",
+            color: "#B8A88A",
+          }}
+        >
+          Seoul, Korea
+        </span>
+      </div>
 
-      {/* Mobile menu */}
-      {open && (
-        <div className="md:hidden bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 px-4 py-3 space-y-1">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={() => setOpen(false)}
-              className="block px-3 py-2 rounded-md text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </div>
-      )}
-    </header>
+      <style>{`
+        .nav-link-hover::after {
+          content: '';
+          position: absolute;
+          bottom: -3px; left: 0;
+          width: 0; height: 1px;
+          background: #1A1A18;
+          transition: width 0.3s ease;
+        }
+        .nav-link-hover:hover::after { width: 100%; }
+      `}</style>
+    </>
   );
 }

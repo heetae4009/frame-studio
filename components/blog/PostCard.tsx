@@ -1,10 +1,5 @@
 import Link from "next/link";
-import { Calendar, Clock, Tag } from "lucide-react";
 import { Post } from "@/types";
-
-interface PostCardProps {
-  post: Post;
-}
 
 function readingTime(content: string): number {
   const words = content.replace(/<[^>]*>/g, "").split(/\s+/).length;
@@ -19,53 +14,135 @@ function formatDate(dateStr: string): string {
   });
 }
 
-export function PostCard({ post }: PostCardProps) {
+export function PostCard({ post }: { post: Post }) {
   const minutes = readingTime(post.content || "");
 
   return (
-    <Link href={`/blog/${post.slug}`} className="group block">
-      <article className="h-full p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-indigo-300 dark:hover:border-indigo-700 transition-all duration-300 hover:shadow-lg hover:shadow-indigo-500/5">
-        {post.category && (
-          <span className="inline-flex items-center gap-1 text-xs font-medium text-indigo-600 dark:text-indigo-400 mb-3">
-            <Tag size={12} />
-            {post.category}
-          </span>
-        )}
+    <Link href={`/blog/${post.slug}`} style={{ textDecoration: "none" }} className="post-card-link">
+      <article
+        style={{
+          borderTop: "1px solid #D4C9B8",
+          paddingTop: 32,
+          paddingBottom: 32,
+          transition: "opacity 0.3s ease",
+        }}
+        className="post-card"
+      >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "flex-start",
+            gap: 24,
+          }}
+        >
+          <div style={{ flex: 1 }}>
+            {post.category && (
+              <div
+                style={{
+                  fontSize: 10,
+                  letterSpacing: "0.22em",
+                  textTransform: "uppercase",
+                  color: "#B8A88A",
+                  marginBottom: 12,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 8,
+                }}
+              >
+                <span
+                  style={{
+                    width: 20,
+                    height: 1,
+                    background: "#B8A88A",
+                    display: "inline-block",
+                  }}
+                />
+                {post.category}
+              </div>
+            )}
 
-        <h2 className="text-lg font-semibold text-slate-900 dark:text-white mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors line-clamp-2">
-          {post.title}
-        </h2>
+            <h2
+              style={{
+                fontFamily: "var(--font-playfair)",
+                fontSize: "clamp(22px, 2.5vw, 32px)",
+                fontWeight: 500,
+                lineHeight: 1.15,
+                color: "#1A1A18",
+                marginBottom: post.excerpt ? 12 : 0,
+                letterSpacing: "-0.01em",
+              }}
+            >
+              {post.title}
+            </h2>
 
-        {post.excerpt && (
-          <p className="text-sm text-slate-600 dark:text-slate-400 mb-4 leading-relaxed line-clamp-3">
-            {post.excerpt}
-          </p>
-        )}
+            {post.excerpt && (
+              <p
+                style={{
+                  fontSize: 14,
+                  lineHeight: 1.75,
+                  color: "#56524E",
+                  fontWeight: 300,
+                  maxWidth: 560,
+                }}
+              >
+                {post.excerpt}
+              </p>
+            )}
+          </div>
+
+          <div
+            style={{
+              textAlign: "right",
+              flexShrink: 0,
+            }}
+          >
+            <div
+              style={{
+                fontSize: 11,
+                letterSpacing: "0.1em",
+                color: "#B8A88A",
+                marginBottom: 4,
+                textTransform: "uppercase",
+              }}
+            >
+              {formatDate(post.created_at)}
+            </div>
+            <div
+              style={{
+                fontSize: 11,
+                color: "#56524E",
+                fontWeight: 300,
+              }}
+            >
+              {minutes}min read
+            </div>
+          </div>
+        </div>
 
         {post.tags && post.tags.length > 0 && (
-          <div className="flex flex-wrap gap-1.5 mb-4">
-            {post.tags.slice(0, 3).map((tag) => (
+          <div style={{ display: "flex", gap: 8, marginTop: 16, flexWrap: "wrap" }}>
+            {post.tags.slice(0, 4).map((tag) => (
               <span
                 key={tag}
-                className="px-2 py-0.5 text-xs bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-md"
+                style={{
+                  fontSize: 10,
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  padding: "4px 10px",
+                  border: "1px solid #D4C9B8",
+                  color: "#56524E",
+                }}
               >
                 {tag}
               </span>
             ))}
           </div>
         )}
-
-        <div className="flex items-center gap-4 text-xs text-slate-400 dark:text-slate-500 mt-auto">
-          <span className="flex items-center gap-1">
-            <Calendar size={12} />
-            {formatDate(post.created_at)}
-          </span>
-          <span className="flex items-center gap-1">
-            <Clock size={12} />
-            {minutes}분 읽기
-          </span>
-        </div>
       </article>
+      <style>{`
+        .post-card-link:hover .post-card { opacity: 0.7; }
+      `}</style>
     </Link>
   );
 }

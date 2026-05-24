@@ -1,62 +1,184 @@
+import { Reveal } from "@/components/Reveal";
 import { siteConfig } from "@/config/site";
 
 export function Skills() {
   return (
     <section
       id="skills"
-      className="py-24 bg-slate-50 dark:bg-slate-800/50"
+      style={{ background: "#F2EDE3", padding: "120px 52px" }}
     >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-4">
-            기술 스택
-          </h2>
-          <p className="text-slate-500 dark:text-slate-400 max-w-xl mx-auto">
-            다양한 프로젝트를 통해 쌓아온 기술들입니다
-          </p>
+      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+        <div className="section-label">What I Do</div>
+
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "flex-end",
+            marginBottom: 72,
+            gap: 40,
+            flexWrap: "wrap",
+          }}
+        >
+          <Reveal>
+            <h2
+              style={{
+                fontFamily: "var(--font-playfair)",
+                fontSize: "clamp(32px, 4vw, 60px)",
+                fontWeight: 500,
+                lineHeight: 1.1,
+                letterSpacing: "-0.02em",
+                color: "#1A1A18",
+              }}
+            >
+              기술로 문제를<br />
+              해결합니다.
+            </h2>
+          </Reveal>
+          <Reveal delay={1}>
+            <p
+              style={{
+                fontSize: 14,
+                lineHeight: 1.75,
+                color: "#56524E",
+                maxWidth: 260,
+                fontWeight: 300,
+              }}
+            >
+              다양한 프로젝트를 통해 쌓아온 기술 스택입니다.
+            </p>
+          </Reveal>
         </div>
 
-        <div className="max-w-2xl mx-auto space-y-6">
-          {siteConfig.skills.map((skill) => (
-            <div key={skill.name}>
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                  {skill.name}
-                </span>
-                <span className="text-sm text-slate-500 dark:text-slate-400">
-                  {skill.level}%
-                </span>
-              </div>
-              <div className="h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+        {/* Skill cards grid */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(3,1fr)",
+            background: "#D4C9B8",
+            gap: 1,
+          }}
+        >
+          {siteConfig.skills.map((skill, i) => (
+            <Reveal key={skill.name} delay={(i % 3) as 0 | 1 | 2}>
+              <div
+                className="svc-card"
+                style={{
+                  background: "#F2EDE3",
+                  padding: "48px 40px 52px",
+                  transition: "background 0.35s ease, color 0.35s ease",
+                  cursor: "default",
+                }}
+              >
                 <div
-                  className="h-full bg-gradient-to-r from-indigo-500 to-violet-500 rounded-full transition-all duration-1000"
-                  style={{ width: `${skill.level}%` }}
-                />
+                  style={{
+                    fontSize: 10,
+                    letterSpacing: "0.22em",
+                    color: "#B8A88A",
+                    marginBottom: 36,
+                    textTransform: "uppercase",
+                  }}
+                >
+                  {String(i + 1).padStart(2, "0")}
+                </div>
+                <h3
+                  style={{
+                    fontFamily: "var(--font-playfair)",
+                    fontSize: 28,
+                    fontWeight: 500,
+                    lineHeight: 1.15,
+                    marginBottom: 16,
+                    color: "#1A1A18",
+                  }}
+                >
+                  {skill.name}
+                </h3>
+                {/* Progress bar */}
+                <div
+                  style={{
+                    height: 1,
+                    background: "#D4C9B8",
+                    marginBottom: 8,
+                    position: "relative",
+                  }}
+                >
+                  <div
+                    style={{
+                      position: "absolute",
+                      left: 0,
+                      top: 0,
+                      height: "100%",
+                      width: `${skill.level}%`,
+                      background: "#1A1A18",
+                    }}
+                  />
+                </div>
+                <div
+                  style={{
+                    fontSize: 11,
+                    letterSpacing: "0.1em",
+                    textTransform: "uppercase",
+                    color: "#56524E",
+                  }}
+                >
+                  {skill.level}%
+                </div>
               </div>
-            </div>
+            </Reveal>
           ))}
         </div>
 
-        {/* Tech badges */}
-        <div className="mt-16 text-center">
-          <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">
-            이외에도 사용 경험이 있는 기술들
-          </p>
-          <div className="flex flex-wrap justify-center gap-2">
-            {[
-              "Git", "Linux", "REST API", "GraphQL", "Redis",
-              "Vercel", "GitHub Actions", "Figma", "Jest", "Prisma"
-            ].map((tech) => (
-              <span
-                key={tech}
-                className="px-3 py-1 text-sm bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full text-slate-600 dark:text-slate-300"
-              >
-                {tech}
-              </span>
-            ))}
+        {/* Extra tags */}
+        <Reveal>
+          <div style={{ marginTop: 52 }}>
+            <div
+              style={{
+                fontSize: 10,
+                letterSpacing: "0.22em",
+                textTransform: "uppercase",
+                color: "#B8A88A",
+                marginBottom: 20,
+              }}
+            >
+              Also familiar with
+            </div>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+              {["Git", "Linux", "GraphQL", "Redis", "Vercel", "GitHub Actions", "Figma", "Jest", "Prisma"].map(
+                (t) => (
+                  <span
+                    key={t}
+                    style={{
+                      fontSize: 10,
+                      letterSpacing: "0.1em",
+                      textTransform: "uppercase",
+                      padding: "5px 12px",
+                      border: "1px solid #D4C9B8",
+                      color: "#56524E",
+                    }}
+                  >
+                    {t}
+                  </span>
+                )
+              )}
+            </div>
           </div>
-        </div>
+        </Reveal>
       </div>
+
+      <style>{`
+        .svc-card:hover { background: #1A1A18 !important; }
+        .svc-card:hover h3 { color: #EDE8DC !important; }
+        .svc-card:hover > div:first-child { color: #D4C9B8 !important; }
+        .svc-card:hover [style*="D4C9B8"] { background: rgba(212,201,184,0.3) !important; }
+        .svc-card:hover [style*="color: #56524E"] { color: rgba(237,232,220,0.55) !important; }
+        @media (max-width: 1100px) {
+          #skills { padding: 96px 36px !important; }
+          #skills [style*="repeat(3,1fr)"] { grid-template-columns: repeat(2,1fr) !important; }
+        }
+        @media (max-width: 520px) {
+          #skills [style*="repeat(3,1fr)"] { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
     </section>
   );
 }

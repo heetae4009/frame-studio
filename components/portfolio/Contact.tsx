@@ -1,56 +1,93 @@
 import Link from "next/link";
-import { Mail, Code2, Briefcase, AtSign, Send } from "lucide-react";
 import { siteConfig } from "@/config/site";
 
 export function Contact() {
   return (
-    <section id="contact" className="py-24 bg-slate-50 dark:bg-slate-800/50">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-4">
-          함께 일해요
-        </h2>
-        <p className="text-slate-500 dark:text-slate-400 mb-10 text-lg leading-relaxed">
-          새로운 기회나 협업에 대해 이야기하고 싶으시면 편하게 연락해 주세요.
-        </p>
+    <section
+      id="contact"
+      style={{
+        background: "#2A2826",
+        color: "#EDE8DC",
+        textAlign: "center",
+        padding: "160px 52px",
+      }}
+    >
+      <p
+        style={{
+          fontSize: 11,
+          letterSpacing: "0.28em",
+          textTransform: "uppercase",
+          color: "#B8A88A",
+          marginBottom: 36,
+        }}
+      >
+        Get in Touch
+      </p>
 
+      <h2
+        style={{
+          fontFamily: "var(--font-playfair)",
+          fontSize: "clamp(40px, 6.5vw, 100px)",
+          fontWeight: 500,
+          lineHeight: 0.97,
+          letterSpacing: "-0.03em",
+          marginBottom: 52,
+          color: "#EDE8DC",
+        }}
+      >
+        함께 만들어<br />
+        <em style={{ fontStyle: "italic", color: "#B8A88A" }}>볼까요?</em>
+      </h2>
+
+      <div style={{ marginBottom: 48 }}>
         <Link
           href={`mailto:${siteConfig.email}`}
-          className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-lg transition-colors shadow-lg shadow-indigo-500/25 mb-10"
+          style={{
+            display: "inline-block",
+            fontSize: 17,
+            color: "#EDE8DC",
+            textDecoration: "none",
+            letterSpacing: "0.06em",
+            borderBottom: "1px solid #B8A88A",
+            paddingBottom: 3,
+            transition: "opacity 0.3s ease",
+          }}
+          className="cta-email-hover"
         >
-          <Send size={20} />
-          이메일 보내기
+          {siteConfig.email}
         </Link>
-
-        <div className="flex justify-center gap-4">
-          <Link
-            href={siteConfig.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-800 transition-colors text-sm font-medium"
-          >
-            <Code2 size={18} />
-            GitHub
-          </Link>
-          <Link
-            href={siteConfig.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-800 transition-colors text-sm font-medium"
-          >
-            <Briefcase size={18} />
-            LinkedIn
-          </Link>
-          <Link
-            href={siteConfig.twitter}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-800 transition-colors text-sm font-medium"
-          >
-            <AtSign size={18} />
-            Twitter
-          </Link>
-        </div>
       </div>
+
+      <Link
+        href={`mailto:${siteConfig.email}`}
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 12,
+          padding: "15px 30px",
+          fontSize: 12,
+          letterSpacing: "0.12em",
+          textTransform: "uppercase",
+          textDecoration: "none",
+          background: "#EDE8DC",
+          color: "#1A1A18",
+          transition: "background 0.3s ease",
+          fontFamily: "var(--font-inter)",
+          fontWeight: 400,
+        }}
+        className="cta-btn-hover"
+      >
+        연락하기 <span style={{ transition: "transform 0.3s ease" }} className="cta-arr">→</span>
+      </Link>
+
+      <style>{`
+        .cta-email-hover:hover { opacity: 0.7; }
+        .cta-btn-hover:hover { background: #D4C9B8 !important; }
+        .cta-btn-hover:hover .cta-arr { transform: translateX(5px); }
+        @media (max-width: 820px) {
+          #contact { padding: 100px 24px !important; }
+        }
+      `}</style>
     </section>
   );
 }
