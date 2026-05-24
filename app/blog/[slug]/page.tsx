@@ -1,4 +1,3 @@
-import { Cursor } from "@/components/Cursor";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { supabase } from "@/lib/supabase";
@@ -55,7 +54,6 @@ export default async function BlogPost({ params }: PageProps) {
 
   return (
     <>
-      <Cursor />
       <Navbar />
 
       <main style={{ background: "#EDE8DC", minHeight: "100vh", paddingTop: 120 }}>
@@ -76,7 +74,7 @@ export default async function BlogPost({ params }: PageProps) {
             }}
             className="back-link-hover"
           >
-            ← Writing
+            ← Journal
           </Link>
 
           {/* Header */}

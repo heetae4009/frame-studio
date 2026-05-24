@@ -1,4 +1,3 @@
-import { Cursor } from "@/components/Cursor";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Ticker } from "@/components/Ticker";
@@ -11,7 +10,6 @@ import { Contact } from "@/components/portfolio/Contact";
 export default function Home() {
   return (
     <>
-      <Cursor />
       <Navbar />
       <main>
         <Hero />

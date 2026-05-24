@@ -1,4 +1,3 @@
-import { Cursor } from "@/components/Cursor";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { PostCard } from "@/components/blog/PostCard";
@@ -7,8 +6,8 @@ import type { Metadata } from "next";
 import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: "Writing",
-  description: `${siteConfig.name}의 개발 블로그`,
+  title: "Journal",
+  description: `${siteConfig.name} — 브랜딩 인사이트와 스튜디오 이야기`,
 };
 
 export const dynamic = "force-dynamic";
@@ -31,7 +30,6 @@ export default async function BlogPage() {
 
   return (
     <>
-      <Cursor />
       <Navbar />
       <main style={{ background: "#EDE8DC", minHeight: "100vh", paddingTop: 120 }}>
         <div style={{ maxWidth: 1000, margin: "0 auto", padding: "0 52px 120px" }}>
@@ -57,7 +55,7 @@ export default async function BlogPage() {
                   background: "#B8A88A",
                 }}
               />
-              Writing
+              Journal
             </div>
             <h1
               style={{
@@ -69,8 +67,8 @@ export default async function BlogPage() {
                 color: "#1A1A18",
               }}
             >
-              생각을 글로<br />
-              <em style={{ fontStyle: "italic", color: "#56524E" }}>정리합니다.</em>
+              브랜딩을<br />
+              <em style={{ fontStyle: "italic", color: "#56524E" }}>이야기합니다.</em>
             </h1>
           </div>
 
